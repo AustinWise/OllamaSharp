@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text;
 using OllamaSharp;
+using OllamaSharp.Models.Chat;
 using OllamaSharp.Models.Exceptions;
 using OllamaSharp.Tools;
 using Spectre.Console;
@@ -9,7 +10,7 @@ namespace OllamaApiConsole.Demos;
 
 public class ToolConsole(IOllamaApiClient ollama) : OllamaConsole(ollama)
 {
-	public List<object> Tools { get; } = [new GetWeatherTool(), new GetLatLonAsyncTool(), new GetPopulationTool()];
+	public List<Tool> Tools { get; } = [new GetWeatherTool(), new GetLatLonAsyncTool(), new GetPopulationTool()];
 
 	public override async Task Run()
 	{
@@ -153,7 +154,7 @@ public class ToolConsole(IOllamaApiClient ollama) : OllamaConsole(ollama)
 		}
 	}
 
-	private static async Task<object[]> GetMcpTools()
+	private static async Task<Tool[]> GetMcpTools()
 	{
 		// expect a config file for the demo app
 		var config = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "server_config.json");

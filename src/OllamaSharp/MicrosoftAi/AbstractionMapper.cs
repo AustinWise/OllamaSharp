@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.AI;
@@ -54,6 +55,10 @@ internal static class AbstractionMapper
 	/// <param name="stream">Indicates if the request should be streamed.</param>
 	/// <param name="serializerOptions">Serializer options</param>
 	/// <returns>A <see cref="ChatRequest"/> object containing the converted data.</returns>
+#if NET
+	[RequiresDynamicCode("TODO")]
+	[RequiresUnreferencedCode("TODO")]
+#endif
 	public static ChatRequest ToOllamaSharpChatRequest(IChatClient? chatClient, IEnumerable<ChatMessage> messages, ChatOptions? options, bool stream, JsonSerializerOptions serializerOptions)
 	{
 		object? format = null;
@@ -153,7 +158,7 @@ internal static class AbstractionMapper
 	/// </summary>
 	/// <param name="tools">The tools to convert.</param>
 	/// <returns>An enumeration of <see cref="Tool"/> objects containing the converted data.</returns>
-	private static IEnumerable<object>? ToOllamaSharpTools(IEnumerable<AITool>? tools)
+	private static IEnumerable<Tool>? ToOllamaSharpTools(IEnumerable<AITool>? tools)
 	{
 		return tools?.Select(ToOllamaSharpTool).Where(t => t is not null)!;
 	}
@@ -166,7 +171,7 @@ internal static class AbstractionMapper
 	/// If parseable, a <see cref="Tool"/> object containing the converted data,
 	/// otherwise <see langword="null"/>.
 	/// </returns>
-	private static object? ToOllamaSharpTool(AITool tool)
+	private static Tool? ToOllamaSharpTool(AITool tool)
 	{
 		if (tool is AIFunction f)
 			return ToOllamaSharpTool(f);
@@ -188,7 +193,7 @@ internal static class AbstractionMapper
 			{
 				Description = function.Description,
 				Name = function.Name,
-				Parameters = JsonSerializer.Deserialize<Parameters>(transformedSchema),
+				Parameters = JsonSerializer.Deserialize(transformedSchema, SourceGenerationContext.Default.Parameters),
 			},
 			Type = Application.Function
 		};
@@ -221,6 +226,10 @@ internal static class AbstractionMapper
 	/// <param name="options">The options used with the request.</param>
 	/// <param name="serializerOptions">Serializer options</param>
 	/// <returns>An enumeration of <see cref="Message"/> objects containing the converted data.</returns>
+#if NET
+	[RequiresDynamicCode("TODO")]
+	[RequiresUnreferencedCode("TODO")]
+#endif
 	private static IEnumerable<Message> ToOllamaSharpMessages(IEnumerable<ChatMessage> messages, ChatOptions? options, JsonSerializerOptions serializerOptions)
 	{
 		if (options?.Instructions is string instructions && !string.IsNullOrWhiteSpace(instructions))

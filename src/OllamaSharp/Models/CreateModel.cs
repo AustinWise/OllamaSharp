@@ -65,6 +65,7 @@ public class CreateModelRequest : OllamaRequest
 	/// A dictionary of parameters for the model (optional)
 	/// </summary>
 	[JsonPropertyName(Application.Parameters)]
+	// TODO: figure out if this can be made more statically typed.
 	public Dictionary<string, object>? Parameters { get; set; }
 
 	/// <summary>

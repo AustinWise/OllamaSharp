@@ -241,7 +241,7 @@ public class Chat
 	/// An asynchronous enumerable stream of string responses from the model.
 	/// </returns>
 	/// <example>
-	/// Example usage of <see cref="SendAsync(string, IEnumerable{object}?, IEnumerable{string}?, object?, CancellationToken)"/>:
+	/// Example usage of <see cref="SendAsync(string, IEnumerable{Tool}?, IEnumerable{string}?, object?, CancellationToken)"/>:
 	/// <code>
 	/// var client = new OllamaApiClient("http://localhost:11434", "llama3.2-vision:latest");
 	/// var chat = new Chat(client);
@@ -258,7 +258,7 @@ public class Chat
 	/// }
 	/// </code>
 	/// </example>
-	public IAsyncEnumerable<string> SendAsync(string message, IEnumerable<object>? tools,
+	public IAsyncEnumerable<string> SendAsync(string message, IEnumerable<Tool>? tools,
 		IEnumerable<string>? imagesAsBase64 = null, object? format = null,
 		CancellationToken cancellationToken = default)
 		=> SendAsAsync(ChatRole.User, message, tools: tools, imagesAsBase64: imagesAsBase64, format: format,
@@ -398,7 +398,7 @@ public class Chat
 	/// Thrown if the <paramref name="format"/> argument is of type <see cref="CancellationToken"/> by mistake, or if any unsupported types are passed.
 	/// </exception>
 	/// <example>
-	/// Using the <see cref="SendAsAsync(ChatRole, string, IEnumerable{object}, IEnumerable{string}, object, CancellationToken)"/> method to send a message and stream the model's response:
+	/// Using the <see cref="SendAsAsync(ChatRole, string, IEnumerable{Tool}, IEnumerable{string}, object, CancellationToken)"/> method to send a message and stream the model's response:
 	/// <code>
 	/// var chat = new Chat(client);
 	/// var role = new ChatRole("assistant");
@@ -410,7 +410,7 @@ public class Chat
 	/// }
 	/// </code>
 	/// </example>
-	public async IAsyncEnumerable<string> SendAsAsync(ChatRole role, string message, IEnumerable<object>? tools,
+	public async IAsyncEnumerable<string> SendAsAsync(ChatRole role, string message, IEnumerable<Tool>? tools,
 		IEnumerable<string>? imagesAsBase64 = null, object? format = null,
 		[EnumeratorCancellation] CancellationToken cancellationToken = default)
 	{

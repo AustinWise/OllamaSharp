@@ -46,6 +46,7 @@ public class ChatRequest : OllamaRequest
 	/// </summary>
 	[JsonPropertyName("format")]
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+	// TODO: figure out a way to represent this that statically expresses that JsonNode is allowed here.
 	public object? Format { get; set; }
 
 	/// <summary>
@@ -69,7 +70,7 @@ public class ChatRequest : OllamaRequest
 	/// </summary>
 	[JsonPropertyName("tools")]
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-	public IEnumerable<object>? Tools { get; set; }
+	public IEnumerable<Tool>? Tools { get; set; }
 }
 
 /// <summary>
